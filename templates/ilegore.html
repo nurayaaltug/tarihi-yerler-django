@@ -1,0 +1,23 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% include "includes/messages.html" %}
+{% block content %}
+<main class="container">
+{% include "includes/messages.html" %}
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">{{ il.adi }} İlindeki Tarihi Yerler</h6>
+      {% for yer in yerler %}
+    <div class="d-flex text-muted pt-3">
+
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+          <strong class="d-block text-gray-dark"><a href="{% url "detay" yer.id %}">{{ yer.isim }}</a></strong>
+                Ekleyen : {{ yer.ekleyen.username }}, Şehir : {{ yer.il.adi }}, İlçe : {{ yer.ilce }}, Tür : {{ yer.yerlesim_turu.adi }}
+      </p>
+    </div>
+        {% endfor %}
+  </div>
+
+</main>
+
+{% endblock %}

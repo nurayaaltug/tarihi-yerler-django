@@ -1,0 +1,102 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block content %}
+
+<main class="form-signin w-50 m-auto">
+{% include "includes/messages.html" %}
+  <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+<br>
+    <h1 class="h3 mb-3 fw-normal">Yeni bir yer ekle</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="name" placeholder="Yerin adı">
+      <label for="floatingInput">Yerin adı</label>
+    </div>
+      <div class="form-floating">
+      <select name="city" class="form-control">
+          {% for il in iller %}
+          <option value="{{ il.id }}">{{ il.adi }}</option>
+          {% endfor %}
+      </select>
+      <label for="floatingInput">İl Seçin</label>
+    </div>
+ <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" name="district" placeholder="İlçe">
+      <label for="floatingInput">İlçe</label>
+    </div>
+          <div class="form-floating">
+      <select name="type" class="form-control">
+          {% for t in yerlesim_sekilleri %}
+          <option value="{{ t.id }}">{{ t.adi }}</option>
+          {% endfor %}
+      </select>
+      <label for="floatingInput">Tür Seçin</label>
+    </div>
+ <div class="form-floating">
+      <input type="text" class="form-control" id="id_latitude" name="latitude" placeholder="Enlem">
+      <label for="floatingInput">Enlem</label>
+    </div>
+       <div class="form-floating">
+      <input type="text" class="form-control" id="id_longitude" name="longitude" placeholder="Boylam">
+      <label for="floatingInput">Boylam</label>
+    </div>
+Enlem ve boylamı aşağıdaki haritadan seçebilirsiniz.
+<div style="height: 500px;" id="map"></div>
+
+       <div class="form-floating">
+           <textarea name="details" class="form-control"></textarea>
+      <label for="floatingInput">Açıklama</label>
+    </div>
+
+        <div class="form-floating">
+        <input class="form-control" type="file" id="files" name="files" multiple>
+      <label for="floatingInput">Resim Seç</label>
+    </div>
+
+    <div class="checkbox mb-3">
+    </div>
+    <button class="w-50 btn btn-lg btn-primary" type="submit">Ekle</button>
+  </form>
+</main>
+
+
+  <script>
+
+        var mymap = L.map('map').setView([40.150363, 26.402135], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1Ijoib2d1emJhbGtheWEiLCJhIjoiY2twMTZmeXhuMWhkcTJ1cWd1YzFvZ2Q0ZCJ9.kccSGdYVXlUIdKPAM1iRrg'
+        }).addTo(mymap);
+
+        var popup = L.popup();
+
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("Seçilen Konum")
+                .openOn(mymap);
+            console.log(e.latlng.toString())
+            var deger = e.latlng.toString();
+            deger = deger.split("(")
+            deger = deger[1].split(")")
+            deger = deger[0].split(",")
+            var lat = deger[0].replace(" ", "")
+            var lon = deger[1].replace(" ", "")
+            console.log(lat)
+            console.log(lon)
+            document.getElementById("id_latitude").value = lat;
+            document.getElementById("id_longitude").value = lon;
+        }
+
+        mymap.on('click', onMapClick);
+
+    </script>
+
+
+{% endblock %}

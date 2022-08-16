@@ -1,0 +1,67 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% include "includes/messages.html" %}
+{% block content %}
+<main class="container-fluid">
+{% include "includes/messages.html" %}
+  <div class="row mt-5">
+    <div style="height: 500px; width:100%;" id="map"></div>
+
+  </div>
+
+  <div class="row mt-5" style="background-color:#f7f7f7;">
+    <div class="row" style=" width:90%; margin-left:5%;">
+    <h1 class="">Son eklenen 5 yer</h1>
+      {% for yer in son_5_yer %}
+          <div class="col-3">
+            <div class="card mt-2" style="width: 18rem;  border-bottom: 4px solid  red;">
+              <img src="media/{{ yer.resimAdi }}" class="card-img-top" style="width:18rem; height:10rem">
+              <div class="card-body">
+                <h5 class="card-title">{{yer.ismi}}</h5>
+                <p class="fw-bold">{{ yer.isim }}</p>
+
+                <p class="card-text">İl: {{yer.il.adi}}, ilce: {{yer.ilce}}</p>
+                <p class="text-center">
+                    <a href="{% url "detay" yer.id %}" target="_blank" class="btn btn-danger">Detaylar</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+ 
+
+
+</main>
+
+
+<script>
+  var map = L.map('map').setView([39.8219, 28.0331], 7);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  
+
+function onMapClick(e) {
+  popup
+      .setLatLng(e.latlng)
+      .setContent("You clicked the map at " + e.latlng.toString())
+      .openOn(map);
+}
+
+{% for yer in son_5_yer %}
+  L.marker([{{yer.enlem}}, {{yer.boylam}}]).addTo(map)
+      .bindPopup("{{yer.isim}}")
+{% endfor %}
+
+
+map.on('click', onMapClick);
+
+
+
+</script>
+
+{% endblock %}

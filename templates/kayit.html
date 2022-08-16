@@ -1,0 +1,32 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% include "includes/messages.html" %}
+{% block content %}
+
+<main class="form-signin w-50 m-auto">
+{% include "includes/messages.html" %}
+  <form method="post">
+      {% csrf_token %}
+<br>
+    <h1 class="h3 mb-3 fw-normal">Kayıt Olun</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Kullanıcı adı">
+      <label for="floatingInput">Kullanıcı adı</label>
+    </div>
+      <div class="form-floating">
+      <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">E-Posta adresi</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Şifre</label>
+    </div>
+
+    <div class="checkbox mb-3">
+    </div>
+    <button class="w-50 btn btn-lg btn-primary" type="submit">Kayıt Ol</button>
+  </form>
+</main>
+
+{% endblock %}
