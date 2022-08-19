@@ -3,36 +3,82 @@
 {% include "includes/messages.html" %}
 {% block content %}
 {% include "includes/messages.html" %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+		 <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
 
-    <main class="container">
-    <br>
-    <h2>{{ yer.isim }}</h2>
-    (Ekleyen : {{ yer.ekleyen.username }}, İl : {{ yer.il.adi }}, İlçe : {{ yer.ilce }}, Tür : {{ yer.yerlesim_turu.adi }})
+			<div class="carousel-inner">
+				{% for resim in resimler %}
+			  <div class="carousel-item active">
+				<img src="/media/{{ resim.resim }}" width="100%" height="500">
+			  </div>
+				{% endfor %}
 
-  <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+			  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			  <span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+			  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			  <span class="visually-hidden">Next</span>
+			</button>
+		  </div>
+		</div>
+	
+	</div>
+  <div class="row " style="margin-top:-7em;">
+    <div class="col-1"></div>
+    <div class="col-3">
+      <div class="card" style="width: 100%; height:100%;">
+        <img src="/media/{{ resimler.0.resim }}" class="card-img-top" alt="..." style="width:90%; margin-left:5%; margin-top:1em">
+        <div class="card-body">
+          <h5 class="card-title">{{ yer.isim }}</h5>
 
-    <div class="carousel-inner">
-        {% for resim in resimler %}
-      <div class="carousel-item active">
-        <img src="/media/{{ resim.resim }}" width="100%" height="500">
+          <p class="fw-bold">İl</p>
+          <p style="margin-top:-1em;"> {{ yer.il.adi }}</p>
+		  
+		  <p class="fw-bold">İlçe</p>
+          <p style="margin-top:-1em;">{{ yer.ilce }}</p>
+		  
+		  <p class="fw-bold">Tur</p>
+          <p style="margin-top:-1em;">{{ yer.yerlesim_turu.adi }}</p>
+		  
+          
+        </div>
       </div>
-        {% endfor %}
+    </div>
+    <div class="col-7">
+	  <div class="card" style="width:100%;">
+	  <div class="card-header" style="background-color:white;">
+		<h4>{{ yer.isim }} </h4>
+	  </div>
+	  <div class="card-body">
+		<p class="card-text">Ekleyen: {{ yer.ekleyen.username }}<span style="float:right;">{{ yer.il.adi }}/{{ yer.ilce }}</span></p>
+	  </div>
+	</div>
+		
+     <div class="card mt-4" style="width:100%;">
+		  <div class="card-header" style="background-color:white;">
+			<h5 class="text-danger">Açıklama</h5>
+		  </div>
+		  <div class="card-body">
+			{{ yer.aciklama }}
+		  </div>
+		</div>
+		
+		<div style="height: 30em; width:100%; margin-top:3em" id="map"></div>
 
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
-<hr>
-  <div style="height: 500px;" id="map"></div>
-<br>
+		
 
-    {{ yer.aciklama }}
+
+</div>
+
+    <main class="container">
+ 
 
 <script>
     var map = L.map('map').setView([{{ enlem }}, {{ boylam }}], 13);

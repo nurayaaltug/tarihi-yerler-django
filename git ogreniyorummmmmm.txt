@@ -1,0 +1,4 @@
+git add . // degistirilen butun dosyaları gite bildirir.
+git commit -m "yapılan değişiklik içi bir açıklama eklenir"
+git push -u origin main // yapılan değişiklikleri uzak sunucya main branchi üzerinden yukler.
+ 
